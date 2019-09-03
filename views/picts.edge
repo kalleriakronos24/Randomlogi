@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{ postz.caption }} | Memelogi</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" type="text/css">
+
+  <!-- Custom fonts for this template -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/f93312e1bb.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="/css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body style="background: #e9ebee;" onload="preload()" class="ovaflow">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="-webkit-box-shadow: 0 4px 6px -6px #222;
+  -moz-box-shadow: 0 4px 6px -6px #222;
+  box-shadow: 0 4px 6px -6px #222;background: white;font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; border-bottom: 1px solid #e9ecef">
+    <div class="container">
+      <a class="navbar-brand" href="/" style="font-size: 24px;">Memelogi | <span style="font-size: 16px;">Home</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive" style="color: black;">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sign-in-link" href="/">Sign In </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sign-up-link" href="/">Sign Up </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/vids/all">Videos </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pics/all">Pictures </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About </a>
+          </li>
+         
+        </ul>
+      </div>
+    </div>
+  </nav> 
+
+
+
+  <span style="display:none;" id="dummy-element-for-getting-user-details-in-sessions">{{ user_id }}</span>
+
+{{--  ----------------------------------modal avatar----------------------------------------  --}}
+ <div class="choose_img_modal" id="thanbel">
+      <img class="modal-img" id="imagee" src="../img/70914.png" alt="avatar"/>
+      <img class="modal-img" id="imagee-1" src="../img/84318.jpg" alt="avatar"/>
+      <img class="modal-img" id="imagee-2" src="../img/106723.png" alt="avatar"/>
+      <img class="modal-img" id="imagee-3" src="../img/161888.png" alt="avatar"/>
+      <img class="modal-img" id="imagee-4" src="../img/188754.jpg" alt="avatar"/>
+      <small class="smol-msg">*Select one as you avatar</small>
+      <button id="btn_next_modal" class="modal_next_btn">Next</button>
+  </div>
+<div class="modal-wrap" id="modal-wrap"></div>
+{{--  -----------------------------------modal avatar-------------------------------------   --}}
+@if(!auth)
+  <div style="display: block;" id="login-section" class="login-section">
+      <span class="sign-in-span">Sign In</span>
+
+      <form action="/user/login" method="POST" id="form-sign-in" class="input-fields">
+      <input class="inpot" autocomplete="off" type="text" name="email" value="" placeholder="Email" />
+      <input class="inpot" type="password" name="password" value="" placeholder="Password" />
+      <button type="submit" class="btn-submit">Next</button>
+      </form>
+    <a href="javascript:void(0)" onclick="document.getElementsByClassName('login-section')[0].style.display = 'none',document.getElementsByClassName('register-section')[0].style.display = 'block' " class="sign-up-btn">Not yet registered ? Join us now!</a>
+    <a href="#" class="forgot-pass-btn">Forgot Password ?</a>
+
+  </div>
+  
+  <div id="reg-section" class="register-section">
+    <span class="register-in-span">Sign Up</span>
+    <div id="unhide-this" class="display-after-success"><span id="this-too" class="visible">Success</span><a id="and-this-one" class="display-after-success-href" href="javascript:void(0)" onclick="location.reload();">Have an Account ? Login now</a></div>
+    <form action="/user/sign-up" id="form-submit" method="POST" class="r_input-fields" target="uploader_iframe">
+    <input class="r_inpot" type="text" value="" autocomplete="off" required="true" name="email" placeholder="Email" />
+    <input class="r_inpot" type="text" value="" autocomplete="off" required="true" name="full_name" placeholder="Full Name" />
+    <input type="hidden" id="test" value="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" name="img_src" />
+    <input class="r_inpot" type="password" value="" autocomplete="off" name="password" placeholder="Password" />
+
+
+    <label id="btn-to-display-modal" class="r_inpot">
+      Choose Avatar
+    </label>
+    <button type="submit" id="btn-submit" class="r_btn-submit">Next</button>
+    </form>
+    <iframe id="uploader_iframe" name="uploader_iframe" style="display: none;"></iframe>
+  
+</div>
+@else
+
+<div id="signed-in" class="notif-signed-in">
+    <span class="notif-signed-in-username">Signed in As {{ user_name }} </span>
+    <span class="notif-signed-in-grettings">Have a nice Day :) </span>
+    <span id="your-time" class="your-time"></span>
+    <span id="server-time" class="server-time"></span>
+    <a href="#" class="my-profile">My Profile</a>
+    <a href="/user/logout" class="logout">Logout</a>
+  </div>
+
+@endif
+         <br>
+     
+  <div class="container-fluid" style="background: white; max-width: 600px;">
+    <div class="row" style="margin-top: 8px;">
+      <div class="mx-40" style="margin: 0px auto;">        
+        <div class="post-preview">
+          <br>
+          <div align="center">
+            <div class="img-wrapper">
+              <img src="{{ postz.image }}" style="max-height: 520px;
+              max-width: 550px;" class="responsive-img">
+            </div>
+          </div>
+            <br>
+            
+            
+      <p style="margin-left: 16px; font-family:inherit; font-size:1rem;"> {{ postz.caption }}</p>
+
+
+      <p style="margin-left: 16px; margin-top: 20px; font-size: 0.7em; font-family: Quicksand;">
+        Sc : {{ postz.source }}
+      </p>
+
+          <p style="margin-left: 16px; font-family: Quicksand; font-size: 0.6em;">
+            {{ postz.time }} {{ postz.posted_on.toDateString() }} . <i class="far fa-image" title="Type : Image"></i></p>
+
+         
+          <p style="margin-left: 16px; font-size: 0.7em; font-family: Quicksand;">-{{ postz.uploader }}</p>
+         
+         
+        </div>   
+        <!-- Pager -->
+         
+        <div class="media comment-box">
+          <div class="media-body"> 
+            <form action="/submit/comment" method="POST">
+            <button style="font-size: 17px;"><i class="far fa-thumbs-up"></i> (0)</button>
+            <input type="hidden" value="{{ pp }}" name="profile_p" />
+              
+            @if(!auth)
+             <input type="text" disabled="true" id="comment_text" autocomplete="off" placeholder="You Must Login to Comment Here" maxlength="35"/> 
+             <button disabled="true" style="font-size:18px;"><i class="far fa-paper-plane"></i></button>
+             @else
+             <input type="text" name="comment_text" id="comment_text" autocomplete="off" placeholder="Comment here..." maxlength="35"/> 
+             <button style="font-size:18px;"><i class="far fa-paper-plane"></i></button>
+             @endif
+            <input type="hidden" value="{{ postz._id }}" name="post_ids" />
+            <input type="hidden" name="usr_name" value="{{ user_name }}" />
+            <input type="hidden" name="comment_time" value="" id="cmnt-time" />
+        
+
+            </form>
+</div>
+</div>
+<br>
+<br>
+
+
+  @each(commentz in comment)
+          <div class="media comment-box">
+                 <div class="media-left">
+                     <a href="#">
+                         <img style="border: 3px solid blue; border-radius:14px;" class="img-responsive user-photo" src="{{ commentz.profile_pic }}">
+                     </a>
+                 </div>
+                 <div class="media-body">
+                 <h4 class="media-heading"> {{ commentz.name }} <small>at {{ commentz.timez }} {{ commentz.comment_at.toDateString() }}</small></h4>
+                 <p>{{ commentz.text }} 
+
+                  @if( commentz.name == user_name)
+
+                 <a style="text-decoration:none;font-size:9px;margin-left: 20px;" href="/delete/comment/{{ commentz._id }}">Delete</a>
+                 <a style="text-decoration:none;font-size:9px;margin-left: 20px;" href="/edit/comment/{{ commentz._id }}">Edit</a>
+
+                  @else
+                 
+                  @endif
+                </p>
+      </div>
+    </div>
+    @endeach
+   
+
+
+    </div>
+  
+  </div>
+</div>
+
+<hr>
+
+<div id="preloader"> 
+  <div id="loader"></div>
+</div>
+
+
+  <!-- Footer -->
+  <footer style="background: white;">
+  
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- Custom scripts for this template -->
+  <script src="/js/clean-blog.min.js"></script>
+  <script src="/js/another_plugin.js"></script>
+  <script src="/js/pace.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="https://kit.fontawesome.com/f93312e1bb.js"></script>
+</body>
+ 
+</html>
+
+<script type="text/javascript"> 
+  var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
+  if (mobile) { 
+      console.log('mobile device')
+   
+  } 
+  else 
+  { 
+     console.log('not a mobile device')
+  }
+</script> 
+
+<script>
+           
+    window.onload = () => {
+
+function calcTime(city, offset) {
+
+d = new Date();
+
+utc = (d.getTimezoneOffset() * 60000) + d.getTime();
+
+nd = new Date(utc + (3600000*offset));
+
+return nd.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+}
+
+$("#loader").fadeOut("slow", function(){
+
+// will fade out the whole DIV that covers the website.
+$("#preloader").delay(300).fadeOut("slow");
+
+});       
+
+document.getElementById('cmnt-time').value = calcTime('Singapore', '+8')
+
+document.getElementById('user_id').value = (((1+Math.random())*0x10000)|0).toString(7).substring(1);
+}
+
+
+
+</script>

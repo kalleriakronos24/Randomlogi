@@ -1,0 +1,47 @@
+@layout('layouts.app')
+
+
+@section('content')
+
+  @each(postz in posts)
+         
+  <div class="container-fluid" style="background: white; max-width: 600px;">
+    <div class="row" style="margin-top: 8px;">
+      <div class="mx-40" style="margin: 0px auto;">
+
+         
+        <div class="post-preview">
+          <br>
+          <div align="center">
+            <video width="520" height="550" controls class="embed-responsive-item">
+              <source src="{{ postz.video }}" type="video/mp4">
+            </video>
+        </div>
+         
+            <br>
+        <p style="margin-left: 21px; font-family:inherit; font-size:1rem;"> {{ postz.caption }}</p>
+
+        <p style="margin-left: 21px; margin-top: 20px; font-size: 0.8rem; font-family: Quicksand;">
+            Sc : {{ postz.source }}
+          </p>
+       
+
+            <p style="margin-left: 21px; font-family: Quicksand; font-size: 0.6em;">
+              {{ postz.time }}  {{ postz.posted_on.toDateString() }} . <i class="far fa-play-circle" title="Type : Video"></i></p>
+
+              <p style="margin-left: 21px; font-size: 0.7em; font-family: Quicksand;">-{{ postz.uploader }}</p>
+         <div class="l-c-section">
+        
+         <a href="/post/v/{{ postz._id }}" class="btn-l-c">See More...</a>
+         </div>
+        </div>
+        <!-- Pager -->
+          
+      </div>
+
+    </div>
+  
+  </div>
+  @endeach
+<br>
+@endsection

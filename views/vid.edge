@@ -1,0 +1,60 @@
+@layout('layouts.app')
+
+@section('content')
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/img/about-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Create A New Post</h1>
+            <span class="subheading">Yeah New Post</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+      <div class="row" style="margin-right: 150px;">
+         <div class="col -md-8 offset-md-2">
+             <form action="/posts/store/vid" method="POST" enctype="multipart/form-data">
+                <div class="control-group">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" name="username" placeholder="Username" class="form-control">
+                        </div>
+                    </div>
+                 <div class="control-group">
+                     <div class="form-group">
+                         <label>Caption</label>
+                         <input type="text" name="title" placeholder="Title" class="form-control">
+                     </div>
+                 </div>
+
+                    <div class="control-group">
+                      <div class="form-group">
+                          <label>Video</label>
+                          <input type="file" name="vid" placeholder="Description">
+                      </div>
+                  </div>
+
+                  <input type="hidden" name="time" value="02:02 AM" id="input_time" />
+                    <div class="control-group">
+                            <div class="form-group">
+                                <label>Credit / Source</label>
+                                <textarea name="content" cols="30" rows="10" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    <div class="form-group my-4 text-center">
+                        <button type="submit" class="btn btn-primary">Create Post</button>
+                    </div>
+             </form>
+      </div>
+  </div>
+
+
+@endsection
