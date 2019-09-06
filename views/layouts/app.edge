@@ -45,12 +45,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Home </a>
           </li>
+          @if(!auth)
           <li class="nav-item">
-            <a class="nav-link sign-in-link" href="/">Sign In </a>
+            <a class="nav-link sign-in-link" href="/login">Sign In </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link sign-up-link" href="/">Sign Up </a>
+            <a class="nav-link sign-up-link" href="/register">Sign Up </a>
           </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link" href="/vids/all">Videos </a>
           </li>
@@ -60,7 +62,15 @@
           <li class="nav-item">
             <a class="nav-link" href="/about">About </a>
           </li>
-         
+          @if(auth)
+          <li class="nav-item">
+            <a class="nav-link signed-in-as" href="/profile">Signed in As {{ user_name }} </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link logout-link" href="/user/logout">Logout </a>
+            </li>
+         @endif
+          
         </ul>
       </div>
     </div>
@@ -86,8 +96,8 @@
       <span class="sign-in-span">Sign In</span>
 
       <form action="/user/login" method="POST" id="form-sign-in" class="input-fields">
-      <input class="inpot" autocomplete="off" type="text" name="email" value="" placeholder="Email" />
-      <input class="inpot" type="password" name="password" value="" placeholder="Password" />
+      <input class="inpot" autocomplete="off" required="true" type="text" name="email" value="" placeholder="Email" />
+      <input class="inpot" type="password" required="true" name="password" value="" placeholder="Password" />
       <button type="submit" class="btn-submit">Next</button>
       </form>
     <a href="javascript:void(0)" onclick="document.getElementsByClassName('login-section')[0].style.display = 'none',document.getElementsByClassName('register-section')[0].style.display = 'block' " class="sign-up-btn">Not yet registered ? Join us now!</a>
@@ -101,7 +111,7 @@
     <form action="/user/sign-up" id="form-submit" method="POST" class="r_input-fields" target="uploader_iframe">
       <input type="hidden" value="" id="user_id" name="useer_id" />
     <input class="r_inpot" type="email" value="" autocomplete="off" required="true" name="email" placeholder="Email" />
-    <input class="r_inpot" type="text" value="" autocomplete="off" required="true" name="full_name" placeholder="Full Name" />
+    <input class="r_inpot" type="text" value="" autocomplete="off" required="true" maxlength="15" name="full_name" placeholder="Full Name" />
     <input type="hidden" id="test" value="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" name="img_src" />
     <input class="r_inpot" type="password" value="" autocomplete="off" name="password" placeholder="Password" />
 
@@ -109,6 +119,7 @@
     <label id="btn-to-display-modal" class="r_inpot">
       Choose Avatar
     </label>
+
     <button type="submit" id="btn-submit" class="r_btn-submit">Next</button>
     </form>
     <iframe id="uploader_iframe" name="uploader_iframe" style="display: none;"></iframe>
@@ -131,7 +142,7 @@
 
 
 <div id="preloader"> 
-    <div id="loader"></div>
+   <div id="loader-text">Randomlogi</div>
  </div>
 
   <!-- Footer -->
@@ -173,13 +184,18 @@
       $('.register-section').css('display', 'none');
       $('.sign-in-link').css('display', 'block'); 
       $('.sign-up-link').css('display', 'block');  
+      $('.signed-in-as').css('display', 'block');
+      $('.logout-link').css('display', 'block');
+      $('.notif-signed-in').css('display','none');
   } 
   else 
   { 
     $('.login-section').css('display', 'block'); 
     $('.sign-in-link').css('display', 'none'); 
-      $('.sign-up-link').css('display', 'none');  
-    
+      $('.sign-up-link').css('display', 'none');
+      $('.signed-in-as').css('display', 'none');
+      $('.logout-link').css('display', 'none');  
+      $('.notif-signed-in').css('display', 'block');
   }
 
  
@@ -189,7 +205,7 @@
   function preload(){
 
     // will first fade out the loading animation 
-    $("#loader").fadeOut("slow", function(){
+    $("#loader-text").fadeOut("slow", function(){
 
       // will fade out the whole DIV that covers the website.
       $("#preloader").delay(300).fadeOut("slow");

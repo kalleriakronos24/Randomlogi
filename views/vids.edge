@@ -44,12 +44,15 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Home </a>
           </li>
+          @if(!auth)
           <li class="nav-item">
-            <a class="nav-link sign-in-link" href="/">Sign In </a>
+            <a class="nav-link sign-in-link" href="/login">Sign In </a>
           </li>
+          
           <li class="nav-item">
-            <a class="nav-link sign-up-link" href="/">Sign Up </a>
+            <a class="nav-link sign-up-link" href="/register">Sign Up </a>
           </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link" href="/vids/all">Videos </a>
           </li>
@@ -59,6 +62,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/about">About </a>
           </li>
+          @if(auth)
+          <li class="nav-item">
+            <a class="nav-link signed-in-as" href="/profile">Signed in As {{ user_name }} </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link logout-link" href="/user/logout">Logout </a>
+            </li>
+         @endif
         </ul>
       </div>
     </div>
@@ -128,26 +139,26 @@
      
   <div class="container-fluid" style="background: white; max-width: 600px;">
     <div class="row" style="margin-top: 8px;">
-      <div class="mx-40" style="margin: 0px auto;">        
+      <div style="margin: 0px auto;">        
         <div class="post-preview">
   
           <div align="center">
-              <video width="520" height="550" controls class="embed-responsive-item">
+              <video controls class="embed-responsive-item">
                 <source src="{{ videox.video }}" type="video/mp4">
               </video>
           </div>
             <br>
 
-            <p style="margin-left: 21px; font-family:inherit; font-size:1rem;"> {{ videox.caption }}</p>
+            <p style="margin-left: 40px; font-family:inherit; font-size:1rem;"> {{ videox.caption }}</p>
 
-            <p style="margin-left: 21px; margin-top: 20px; font-size: 1rem; font-family: Quicksand;">
+            <p style="margin-left: 40px; margin-top: 20px; font-size: 1rem; font-family: Quicksand;">
               Sc : {{ videox.source }}
             </p>
 
-            <p style="margin-left: 21px; font-family: Quicksand; font-size: 0.6em;">
+            <p style="margin-left: 40px; font-family: Quicksand; font-size: 0.6em;">
             {{ videox.time }}  {{ videox.posted_on.toDateString() }} . <i class="far fa-play-circle" title="Type : Video"></i></p>
 
-            <p style="margin-left: 21px; font-size: 0.7em; font-family: Quicksand;">-{{ videox.uploader }}</p>
+            <p style="margin-left: 40px; font-size: 0.7em; font-family: Quicksand;">-{{ videox.uploader }}</p>
          
          
         </div>   
@@ -156,15 +167,15 @@
         <div class="media comment-box">
           <div class="media-body"> 
             <form action="/submit/comment" method="POST">
-            <button style="font-size: 17px;"><i class="far fa-thumbs-up"></i> (0)</button>
+            <button disabled="true" style="font-size: 17px; margin-left:20px;"><i class="far fa-thumbs-up"></i></button>
             <input type="hidden" value="{{ pp }}" name="profile_p" />
               
             @if(!auth)
-             <input type="text" disabled="true" id="comment_text" autocomplete="off" placeholder="You Must Login to Comment Here" maxlength="35"/> 
+             <input type="text" disabled="true" id="comment_text" autocomplete="off" placeholder="You Must Login to Comment Here" maxlength="15"/> 
              <button disabled="true" style="font-size:18px;"><i class="far fa-paper-plane"></i></button>
              @else
              <input type="text" name="comment_text" id="comment_text" autocomplete="off" placeholder="Comment here..." maxlength="35"/> 
-             <button style="font-size:18px;"><i class="far fa-paper-plane"></i></button>
+             <button style="font-size:18px; margin-left:2px;"><i class="far fa-paper-plane"></i></button>
              @endif
             <input type="hidden" value="{{ videox._id }}" name="post_ids" />
             <input type="hidden" name="usr_name" value="{{ user_name }}" />
@@ -182,12 +193,12 @@
           <div class="media comment-box">
                  <div class="media-left">
                      <a href="#">
-                         <img style="border: 3px solid blue; border-radius:14px;" class="img-responsive user-photo" src="{{ commentz.profile_pic }}">
+                         <img style="margin-left: 27px;border: 3px solid blue; border-radius:14px;" class="img-responsive user-photo" src="{{ commentz.profile_pic }}">
                      </a>
                  </div>
                  <div class="media-body">
-                 <h4 class="media-heading"> {{ commentz.name }} <small>at {{ commentz.timez }} {{ commentz.comment_at.toDateString() }}</small></h4>
-                 <p>{{ commentz.text }} 
+                 <h4 style="margin-left: 24px;" class="media-heading"> {{ commentz.name }} <small>at {{ commentz.timez }} {{ commentz.comment_at.toDateString() }}</small></h4>
+                 <p style="margin-left: 24px;">{{ commentz.text }} 
                   @if( commentz.name == user_name)
 
                  <a style="text-decoration:none;font-size:9px;margin-left: 20px;" href="/delete/comment/{{ commentz._id }}">Delete</a>
@@ -211,7 +222,7 @@
 <hr>
 
 <div id="preloader"> 
-  <div id="loader"></div>
+  <div id="loader-text">Randomlogi</div>
 </div>
 
 
@@ -245,12 +256,23 @@
 <script type="text/javascript"> 
   var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
   if (mobile) { 
-      console.log('mobile device')
+    $('.login-section').css('display', 'none'); 
+      $('.register-section').css('display', 'none');
+      $('.sign-in-link').css('display', 'block'); 
+      $('.sign-up-link').css('display', 'block');  
+      $('.signed-in-as').css('display', 'block');
+      $('.logout-link').css('display', 'block');
+      $('.notif-signed-in').css('display','none');
    
   } 
   else 
   { 
-     console.log('not a mobile device')
+    $('.login-section').css('display', 'block'); 
+    $('.sign-in-link').css('display', 'none'); 
+      $('.sign-up-link').css('display', 'none');
+      $('.signed-in-as').css('display', 'none');
+      $('.logout-link').css('display', 'none');  
+      $('.notif-signed-in').css('display', 'block');
   }
 </script> 
 
@@ -270,7 +292,7 @@ return nd.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: 
 
 }
 
-$("#loader").fadeOut("slow", function(){
+$("#loader-text").fadeOut("slow", function(){
 
 // will fade out the whole DIV that covers the website.
 $("#preloader").delay(300).fadeOut("slow");

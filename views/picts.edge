@@ -44,12 +44,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Home </a>
           </li>
+          @if(!auth)
           <li class="nav-item">
-            <a class="nav-link sign-in-link" href="/">Sign In </a>
+            <a class="nav-link sign-in-link" href="/login">Sign In </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link sign-up-link" href="/">Sign Up </a>
+            <a class="nav-link sign-up-link" href="/register">Sign Up </a>
           </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link" href="/vids/all">Videos </a>
           </li>
@@ -59,7 +61,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/about">About </a>
           </li>
-         
+          @if(auth)
+          <li class="nav-item">
+            <a class="nav-link signed-in-as" href="/profile">Signed in As {{ user_name }} </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link logout-link" href="/user/logout">Logout </a>
+            </li>
+         @endif
         </ul>
       </div>
     </div>
@@ -129,30 +138,29 @@
      
   <div class="container-fluid" style="background: white; max-width: 600px;">
     <div class="row" style="margin-top: 8px;">
-      <div class="mx-40" style="margin: 0px auto;">        
+      <div style="margin: 0px auto;">        
         <div class="post-preview">
           <br>
           <div align="center">
             <div class="img-wrapper">
-              <img src="{{ postz.image }}" style="max-height: 520px;
-              max-width: 550px;" class="responsive-img">
+              <img src="{{ postz.image }}" class="embed-responsive-item">
             </div>
           </div>
             <br>
             
             
-      <p style="margin-left: 16px; font-family:inherit; font-size:1rem;"> {{ postz.caption }}</p>
+      <p style="margin-left: 40px; font-family:inherit; font-size:1rem;"> {{ postz.caption }}</p>
 
 
-      <p style="margin-left: 16px; margin-top: 20px; font-size: 0.7em; font-family: Quicksand;">
+      <p style="margin-left: 40px; margin-top: 20px; font-size: 0.7em; font-family: Quicksand;">
         Sc : {{ postz.source }}
       </p>
 
-          <p style="margin-left: 16px; font-family: Quicksand; font-size: 0.6em;">
+          <p style="margin-left: 40px; font-family: Quicksand; font-size: 0.6em;">
             {{ postz.time }} {{ postz.posted_on.toDateString() }} . <i class="far fa-image" title="Type : Image"></i></p>
 
          
-          <p style="margin-left: 16px; font-size: 0.7em; font-family: Quicksand;">-{{ postz.uploader }}</p>
+          <p style="margin-left: 40px; font-size: 0.7em; font-family: Quicksand;">-{{ postz.uploader }}</p>
          
          
         </div>   
@@ -161,7 +169,7 @@
         <div class="media comment-box">
           <div class="media-body"> 
             <form action="/submit/comment" method="POST">
-            <button style="font-size: 17px;"><i class="far fa-thumbs-up"></i> (0)</button>
+            <button  disabled="true" style="font-size: 17px; margin-left:20px;"><i class="far fa-thumbs-up"></i></button>
             <input type="hidden" value="{{ pp }}" name="profile_p" />
               
             @if(!auth)
@@ -169,7 +177,7 @@
              <button disabled="true" style="font-size:18px;"><i class="far fa-paper-plane"></i></button>
              @else
              <input type="text" name="comment_text" id="comment_text" autocomplete="off" placeholder="Comment here..." maxlength="35"/> 
-             <button style="font-size:18px;"><i class="far fa-paper-plane"></i></button>
+             <button style="font-size:18px; margin-left:2px;"><i class="far fa-paper-plane"></i></button>
              @endif
             <input type="hidden" value="{{ postz._id }}" name="post_ids" />
             <input type="hidden" name="usr_name" value="{{ user_name }}" />
@@ -187,12 +195,12 @@
           <div class="media comment-box">
                  <div class="media-left">
                      <a href="#">
-                         <img style="border: 3px solid blue; border-radius:14px;" class="img-responsive user-photo" src="{{ commentz.profile_pic }}">
+                         <img style="margin-left:27px;border: 3px solid blue; border-radius:14px;" class="img-responsive user-photo" src="{{ commentz.profile_pic }}">
                      </a>
                  </div>
                  <div class="media-body">
-                 <h4 class="media-heading"> {{ commentz.name }} <small>at {{ commentz.timez }} {{ commentz.comment_at.toDateString() }}</small></h4>
-                 <p>{{ commentz.text }} 
+                 <h4 style="margin-left:24px;" class="media-heading"> {{ commentz.name }} <small>at {{ commentz.timez }} {{ commentz.comment_at.toDateString() }}</small></h4>
+                 <p style="margin-left:24px;">{{ commentz.text }} 
 
                   @if( commentz.name == user_name)
 
@@ -217,7 +225,7 @@
 <hr>
 
 <div id="preloader"> 
-  <div id="loader"></div>
+  <div id="loader-text">Randomlogi</div>
 </div>
 
 
@@ -244,12 +252,23 @@
 <script type="text/javascript"> 
   var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
   if (mobile) { 
-      console.log('mobile device')
+    $('.login-section').css('display', 'none'); 
+      $('.register-section').css('display', 'none');
+      $('.sign-in-link').css('display', 'block'); 
+      $('.sign-up-link').css('display', 'block');  
+      $('.signed-in-as').css('display', 'block');
+      $('.logout-link').css('display', 'block');
+      $('.notif-signed-in').css('display','none');
    
   } 
   else 
   { 
-     console.log('not a mobile device')
+    $('.login-section').css('display', 'block'); 
+    $('.sign-in-link').css('display', 'none'); 
+      $('.sign-up-link').css('display', 'none');
+      $('.signed-in-as').css('display', 'none');
+      $('.logout-link').css('display', 'none');  
+      $('.notif-signed-in').css('display', 'block');
   }
 </script> 
 
@@ -269,7 +288,7 @@ return nd.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: 
 
 }
 
-$("#loader").fadeOut("slow", function(){
+$("#loader-text").fadeOut("slow", function(){
 
 // will fade out the whole DIV that covers the website.
 $("#preloader").delay(300).fadeOut("slow");
