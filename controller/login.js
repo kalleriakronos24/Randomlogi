@@ -17,7 +17,7 @@ module.exports = (req,res)  => {
                 req.session.userId = user._id
                 req.session.img = user.profile_pic
                 req.session.full_name = user.full_name
-                res.redirect('back')
+                res.redirect('/')
             }else{
                res.redirect('/');
             }
@@ -57,4 +57,11 @@ module.exports.Admin = (req, res) => {
         }
     })
 
+}
+
+module.exports.Render = (req, res) => {
+    res.render('mobile_login');
+}
+module.exports.RenderRegisterPage = (req, res) => {
+    res.render('mobile_register');
 }

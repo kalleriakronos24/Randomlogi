@@ -82,6 +82,9 @@ module.exports.Update = (req, res) => {
 
 module.exports.DisplayPageEdit = async (req, res) => {
 
+    if(req.session.email != 'admin@memelogi.com'){
+        res.redirect('/');
+    }else{
     const post_id = req.params.idv;
     const fetch_vid_details = await vidpost.findById(req.params.id);
     res.render('e-vid', {
@@ -89,10 +92,15 @@ module.exports.DisplayPageEdit = async (req, res) => {
         post_id
     })
 }
+}
 
 
 module.exports.DisplayPageCreate = (req, res) => {
+    if(req.session.email != 'admin@memelogi.com'){
+        res.redirect('/');
+    }else{
     res.render('c-vid');
+    }
 }
 
 module.exports.Show = async (req,res) => {

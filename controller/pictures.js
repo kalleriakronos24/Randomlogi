@@ -3,7 +3,11 @@ const path = require('path');
 const comments = require('../database/models/comments')
 
 module.exports.DisplayPageCreate = (req,res) => {
+    if(req.session.email != 'admin@memelogi.com'){
+        res.redirect('/');
+    }else{
     res.render('c-pict');
+    }
 } 
 
 
@@ -67,6 +71,7 @@ module.exports.Create = (req, res) => {
 
 module.exports.Update = (req, res) => {
 
+
     let sampleFile;
 
     if(Object.keys(req.files).length == 0){
@@ -102,13 +107,16 @@ module.exports.Update = (req, res) => {
 }
 
 module.exports.RenderEditPage = async (req, res) => {
+    if(req.session.email != 'admin@memelogi.com'){
+        res.redirect('/');
+    }else{
     const post_id = req.params.idp;
     const fetch_pic_details = await Post.findById(req.params.id);
     res.render('e-pict', {
         fetch_pic_details,
         post_id
-    })
-
+        })
+    }
 }
 
 
