@@ -69,6 +69,21 @@ $(document).ready(function(){
             })
         })
 
+        $('#submit-forrm').submit(function(e) {
+            e.preventDefault();
+            var fd = new FormData($(this)[0]);
+            $.ajax({
+                url: '/user/sign-up',
+                data: fd,
+                processData:false,
+                contentType: false,
+                type: 'POST',
+                success : (data) => {
+                   $('#alert-success').css('display','block');
+                }
+            })
+        })
+
         $('#msform-1').submit(function(e) {
             e.preventDefault();
             var fd = new FormData($(this)[0]);
@@ -98,6 +113,7 @@ $(document).ready(function(){
                 }
             })
         })
+        
         $('#msform-3').submit(function(e) {
             e.preventDefault();
             var fd = new FormData($(this)[0]);
