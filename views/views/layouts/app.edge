@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Randomlogi Science</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" type="text/css">
+
+  <!-- Custom fonts for this template -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/f93312e1bb.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="/css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body style="background: #e9ebee;" onload="preload()" class="ovaflow">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="  -webkit-box-shadow: 0 4px 6px -6px #222;
+  -moz-box-shadow: 0 4px 6px -6px #222;
+  box-shadow: 0 4px 6px -6px #222;background: white;font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; border-bottom: 1px solid #e9ecef">
+    <div class="container">
+      <a class="navbar-brand" href="/" style="color:black; font-size: 24px;">Randomlogi | <span style="font-size: 16px;">Home</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive" style="color: black;">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home </a>
+          </li>
+          @if(!auth)
+          <li class="nav-item">
+            <a class="nav-link sign-in-link" href="/login">Sign In </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sign-up-link" href="/register">Sign Up </a>
+          </li>
+          @endif
+          <li class="nav-item">
+            <a class="nav-link" href="/vids/all">Videos </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pics/all">Pictures </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About </a>
+          </li>
+          @if(auth)
+          <li class="nav-item">
+            <a class="nav-link signed-in-as" href="/profile">Signed in As {{ user_name }} </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link logout-link" href="/user/logout">Logout </a>
+            </li>
+         @endif
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  @if(!auth)
+  <span style="display:none;" id="dummy-element-for-getting-user-details-in-sessions">{{ user_id }}</span>
+
+{{--  ----------------------------------modal avatar----------------------------------------  --}}
+ <div class="choose_img_modal" id="thanbel">
+      <img class="modal-img" id="imagee" src="/img/70914.png" alt="avatar"/>
+      <img class="modal-img" id="imagee-1" src="/img/84318.jpg" alt="avatar"/>
+      <img class="modal-img" id="imagee-2" src="/img/106723.png" alt="avatar"/>
+      <img class="modal-img" id="imagee-3" src="/img/161888.png" alt="avatar"/>
+      <img class="modal-img" id="imagee-4" src="/img/188754.jpg" alt="avatar"/>
+      <small class="smol-msg">*Select one as you avatar</small>
+      <button id="btn_next_modal" class="modal_next_btn">Next</button>
+  </div>
+<div class="modal-wrap" id="modal-wrap"></div>
+{{--  -----------------------------------modal avatar-------------------------------------   --}}
+
+  <div style="display: none;" id="login-section" class="login-section">
+      <span class="sign-in-span">Sign In</span>
+
+      <form action="/user/login" method="POST" id="form-sign-in" class="input-fields">
+      <input class="inpot" autocomplete="off" required="true" type="text" name="email" value="" placeholder="Email" />
+      <input class="inpot" type="password" required="true" name="password" value="" placeholder="Password" />
+      <button type="submit" class="btn-submit">Next</button>
+      </form>
+    <a href="javascript:void(0)" onclick="document.getElementsByClassName('login-section')[0].style.display = 'none',document.getElementsByClassName('register-section')[0].style.display = 'block' " class="sign-up-btn">Not yet registered ? Join us now!</a>
+    <a href="#" class="forgot-pass-btn">Forgot Password ?</a>
+
+  </div>
+  
+  <div id="reg-section" class="register-section">
+    <span class="register-in-span">Sign Up</span>
+    <div id="unhide-this" class="display-after-success"><span id="this-too" class="visible">Success</span><a id="and-this-one" class="display-after-success-href" href="javascript:void(0)" onclick="location.reload();">Have an Account ? Login now</a></div>
+    <form action="/user/sign-up" id="form-submit" method="POST" class="r_input-fields" target="uploader_iframe">
+      <input type="hidden" value="" id="user_id" name="useer_id" />
+    <input class="r_inpot" type="email" value="" autocomplete="off" required="true" name="email" placeholder="Email" />
+    <input class="r_inpot" type="text" value="" autocomplete="off" required="true" maxlength="15" name="full_name" placeholder="Full Name" />
+    <input type="hidden" id="test" value="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" name="img_src" />
+    <input class="r_inpot" type="password" value="" autocomplete="off" name="password" placeholder="Password" />
+
+
+    <label id="btn-to-display-modal" class="r_inpot">
+      Choose Avatar
+    </label>
+
+    <button type="submit" id="btn-submit" class="r_btn-submit">Next</button>
+    </form>
+    <iframe id="uploader_iframe" name="uploader_iframe" style="display: none;"></iframe>
+  
+</div>
+@else
+
+<div id="signed-in" class="notif-signed-in">
+    <span class="notif-signed-in-username">Signed in As {{ user_name }} </span>
+    <span class="notif-signed-in-grettings">Have a nice Day :) </span>
+    <span id="your-time" class="your-time"></span>
+    <span id="server-time" class="server-time"></span>
+<a href="/profile/{{ userid }}/{{ user_name }}" class="my-profile">My Profile</a>
+    <a href="/user/logout" class="logout">Logout</a>
+  </div>
+
+@endif
+
+@!section('content')
+
+
+<div id="preloader"> 
+   <div id="loader-text">Randomlogi</div>
+ </div>
+
+  <!-- Footer -->
+  <footer style="background: white; position:">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+         
+          <p class="copyright text-muted">Randomlogi 2019</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+  @!section('scripts')
+
+ 
+
+  <!-- Custom scripts for this template -->
+  <script src="/js/clean-blog.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/another_plugin.js"></script>
+  <script src="/js/pace.js"></script>
+  <script src="https://kit.fontawesome.com/f93312e1bb.js"></script>
+</body>
+
+</html>
+
+<script type="text/javascript"> 
+  var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
+  if (mobile) { 
+      $('.login-section').css('display', 'none'); 
+      $('.register-section').css('display', 'none');
+      $('.sign-in-link').css('display', 'block'); 
+      $('.sign-up-link').css('display', 'block');  
+      $('.signed-in-as').css('display', 'block');
+      $('.logout-link').css('display', 'block');
+      $('.notif-signed-in').css('display','none');
+  } 
+  else 
+  { 
+    $('.login-section').css('display', 'block'); 
+    $('.sign-in-link').css('display', 'none'); 
+      $('.sign-up-link').css('display', 'none');
+      $('.signed-in-as').css('display', 'none');
+      $('.logout-link').css('display', 'none');  
+      $('.notif-signed-in').css('display', 'block');
+  }
+
+ 
+
+
+
+  function preload(){
+
+    // will first fade out the loading animation 
+    $("#loader-text").fadeOut("slow", function(){
+
+      // will fade out the whole DIV that covers the website.
+      $("#preloader").delay(300).fadeOut("slow");
+
+    });       
+
+   document.getElementById('user_id').value = (((1+Math.random())*0x10000)|0).toString(7).substring(1);
+
+  }
+</script> 
+

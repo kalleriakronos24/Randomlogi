@@ -1,0 +1,109 @@
+@layout('layouts.app')
+
+
+@section('content')
+
+
+
+<div class="container" id="container-fluid" style="display:none;margin-top: 40px;height: 500px;background: white; max-width: 600px;">
+  <div class="row" style="margin-top: 8px;">
+    <div class="mx-40" style="margin: 0px auto;">
+
+       
+      <div class="post-preview">
+        <br>
+        <div align="center">
+          <p style="text-align: center">No Post Available today :(</p>
+      </div>
+        
+    </div>
+
+  </div>
+
+  </div>
+</div>
+
+  @each(postingan in vidpostz)
+
+  <div class="container-fluid" style="background: white; max-width: 600px;">
+    <div class="row" style="margin-top: 8px;">
+      <div style="margin: 0px auto;">
+
+         
+        <div class="post-preview">
+          <br>
+          <div align="center">
+            <video width="520" height="550" controls class="embed-responsive-item">
+              <source src="{{ postingan.video }}" type="video/mp4">
+            </video>
+        </div>
+         
+            <br>
+        <p style="margin-left: 40px; font-family:inherit; font-size:1rem;"> {{ postingan.caption }}</p>
+
+        <p style="margin-left: 40px; margin-top: 20px; font-size: 0.8rem; font-family: Quicksand;">
+            Sc : {{ postingan.source }}
+          </p>
+       
+
+            <p style="margin-left: 40px; font-family: Quicksand; font-size: 0.6em;">
+              {{ postingan.time }}  {{ postingan.posted_on.toDateString() }} . <i class="far fa-play-circle" title="Type : Video"></i></p>
+
+              <p style="margin-left: 40px; font-size: 0.7em; font-family: Quicksand;">-{{ postingan.uploader }}</p>
+  
+        
+          <p style="margin-left: 76%; font-size: 0.7em; font-family: Quicksand;"><a class="btn-l-c" style="color:black;text-decoration: none;" href="/post/v/{{ postingan._id }}">See More . .</a></p>
+
+        </div>
+          
+      </div>
+
+    </div>
+  
+  </div>
+  @endeach
+<br>
+
+@each(postz in posts)
+         
+<div class="container-fluid" style="background: white; max-width: 600px;">
+  <div class="row" style="margin-top: 8px;">
+    <div style="margin: 0px auto;">
+
+       
+      <div class="post-preview">
+        <br>
+        <div align="center">
+          <div class="img-wrapper">
+              <img src="{{ postz.image }}" class="embed-responsive-item">
+            </div>
+      </div>
+       
+          <br>
+      <p style="margin-left: 40px; font-family:inherit; font-size:1rem;"> {{ postz.caption }}</p>
+
+
+      <p style="margin-left: 40px; margin-top: 20px; font-size: 0.7em; font-family: Quicksand;">
+        Sc : {{ postz.source }}
+      </p>
+
+          <p style="margin-left: 40px; font-family: Quicksand; font-size: 0.6em;">
+            {{ postz.time }} {{ postz.posted_on.toDateString() }} . <i class="far fa-image" title="Type : Image"></i></p>
+
+         
+          <p style="margin-left: 40px; font-size: 0.7em; font-family: Quicksand;">-{{ postz.uploader }}</p>
+
+      
+        <p style="margin-left: 76%; font-size: 0.7em; font-family: Quicksand;"><a class="btn-l-c" style="color:black;text-decoration: none;" href="/post/p/{{ postz._id }}">See More . .</a></p>
+
+      </div>
+    
+        
+    </div>
+
+  </div>
+
+</div>
+@endeach
+<br>
+@endsection
